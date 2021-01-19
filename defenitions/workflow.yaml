@@ -10,14 +10,14 @@ Steps:
     Outputs:
       WorkflowId: step.WorkflowId
       Status: step.Status
-
+        
   - Id: IfErrorAfterInitialDocument
     StepType: WorkflowCore.Primitives.If, WorkflowCore
     NextStepId: WaitIop
     Inputs:
       Condition: 'data.Status.ToLower() == "error"'
     Do:
-    - - Id: End
+    - - Id: EndAfterInitial
         StepType: wf_core_sample.Workflows.Steps.EndStep, wf-core-sample
         Inputs:
           Status: data.Status
@@ -47,7 +47,7 @@ Steps:
     Inputs:
       Condition: 'data.Status.ToLower() == "error"'
     Do:
-    - - Id: End
+    - - Id: EndAfterService
         StepType: wf_core_sample.Workflows.Steps.EndStep, wf-core-sample
         Inputs:
           Status: data.Status
@@ -64,7 +64,7 @@ Steps:
 
   - Id: ProcessServiceDocumentUouOk
     StepType: wf_core_sample.Workflows.Steps.ProcessServiceDocument, wf-core-sample
-    NextStepId: End
+    NextStepId: EndAfterService
     Inputs: 
       Type: '"UOU OK"'
       Document: data.Document
