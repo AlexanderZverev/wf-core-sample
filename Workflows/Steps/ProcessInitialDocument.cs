@@ -36,7 +36,7 @@ namespace wf_core_sample.Workflows.Steps
                 _events.Add($" -- Ошибка, неверный тип документа: {Document}.");
             }
 
-            _events.Add($" -- Status: {Status}.");
+            _events.Add($" -- Status: {Status}");
 
             return ExecutionResult.Next();
         }

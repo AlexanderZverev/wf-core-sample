@@ -1,0 +1,72 @@
+﻿Id: WorkflowFromDefinition
+Version: 1
+DataType: wf_core_sample.Workflows.UntypedDocumentWorkflowData, wf-core-sample
+Steps:
+  - Id: ProcessInitialDocument
+    StepType: wf_core_sample.Workflows.Steps.ProcessInitialDocument, wf-core-sample
+    NextStepId: IfErrorAfterInitialDocument
+    Inputs:
+      Document: data.Document
+    Outputs:
+      WorkflowId: step.WorkflowId
+      Status: step.Status
+
+  - Id: IfErrorAfterInitialDocument
+    StepType: WorkflowCore.Primitives.If, WorkflowCore
+    NextStepId: WaitIop
+    Inputs:
+      Condition: 'data.Status.ToLower() == "error"'
+    Do:
+    - - Id: End
+        StepType: wf_core_sample.Workflows.Steps.EndStep, wf-core-sample
+        Inputs:
+          Status: data.Status
+
+  - Id: WaitIop
+    StepType: WorkflowCore.Primitives.WaitFor, WorkflowCore
+    NextStepId: ProcessServiceDocumentIop
+    Inputs:
+      EventName: '"ServiceDoc"'
+      EventKey: data.WorkflowId
+      EffectiveDate: DateTime.Now
+    Outputs:
+      Document: step.EventData
+
+  - Id: ProcessServiceDocumentIop
+    StepType: wf_core_sample.Workflows.Steps.ProcessServiceDocument, wf-core-sample
+    NextStepId: IfErrorAfterServiceDocument
+    Inputs: 
+      Type: '"IOP"'
+      Document: data.Document
+    Outputs:
+      Status: step.Status
+
+  - Id: IfErrorAfterServiceDocument
+    StepType: WorkflowCore.Primitives.If, WorkflowCore
+    NextStepId: WaitUouOk
+    Inputs:
+      Condition: 'data.Status.ToLower() == "error"'
+    Do:
+    - - Id: End
+        StepType: wf_core_sample.Workflows.Steps.EndStep, wf-core-sample
+        Inputs:
+          Status: data.Status
+  
+  - Id: WaitUouOk
+    StepType: WorkflowCore.Primitives.WaitFor, WorkflowCore
+    NextStepId: ProcessServiceDocumentUouOk
+    Inputs:
+      EventName: '"ServiceDoc"'
+      EventKey: data.WorkflowId
+      EffectiveDate: DateTime.Now
+    Outputs:
+      Document: step.EventData
+
+  - Id: ProcessServiceDocumentUouOk
+    StepType: wf_core_sample.Workflows.Steps.ProcessServiceDocument, wf-core-sample
+    NextStepId: End
+    Inputs: 
+      Type: '"UOU OK"'
+      Document: data.Document
+    Outputs:
+      Status: step.Status

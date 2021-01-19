@@ -48,7 +48,7 @@ namespace wf_core_sample.Workflows.Steps
                 Status = "error";
             }
 
-            _events.Add($" -- Status :{Status}");
+            _events.Add($" -- Status: {Status}");
 
             return ExecutionResult.Next();
         }

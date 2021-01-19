@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using wf_core_sample.Workflows;
 using WorkflowCore.Interface;
 using WorkflowCore.Services.DefinitionStorage;
 
@@ -31,13 +32,19 @@ namespace wf_core_sample.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> Post(string id, int? version, string doc)
+        public async Task<IActionResult> Post(string id, int? version, string document)
         {
             var def = _registry.GetDefinition(id, version);
-            if (def == null)
-                return BadRequest($"Workflow definition {id} for version {version} not found");
 
-            var workflowId = await _workflowService.StartWorkflow(id, version, data: doc);
+            if (def == null)
+            {
+                return BadRequest($"Workflow definition {id} for version {version} not found");
+            }
+
+            var workflowId = await _workflowService.StartWorkflow(
+                id, 
+                version, 
+                data: new UntypedDocumentWorkflowData { Document = document });
 
             return Ok(workflowId);
         }

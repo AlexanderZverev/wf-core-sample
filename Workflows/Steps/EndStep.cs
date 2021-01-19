@@ -17,7 +17,7 @@ namespace wf_core_sample.Workflows.Steps
         public override ExecutionResult Run(IStepExecutionContext context)
         {
             _events.Add($"Документооборот завершен.");
-            _events.Add($" -- Status :{Status}");
+            _events.Add($" -- Status: {Status}");
             _events.Add($"--------------------------------------------");
 
             return ExecutionResult.Next();
