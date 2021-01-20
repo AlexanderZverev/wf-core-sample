@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>wf-core-sample</name>
+    </assembly>
+    <members>
+        <member name="M:wf_core_sample.Controllers.EventsController.Post(System.String,System.String,System.String)">
+            <summary>
+            Отправить документ по запущенному документообороту
+            </summary>
+            <param name="eventName">Имя события которое ожидает запущщенный документооборот</param>
+            <param name="eventKey">ИД документооборота</param>
+            <param name="doc">Документ ('ok, iop, uou')</param>
+            <returns></returns>
+        </member>
+        <member name="M:wf_core_sample.Controllers.WorkflowsController.Post(System.String,System.Nullable{System.Int32},System.String)">
+            <summary>
+            Начать документооборот
+            </summary>
+            <param name="workflowName">Название документооборота</param>
+            <param name="version">Версия</param>
+            <param name="document">Документ ('doc')</param>
+            <returns></returns>
+        </member>
+        <member name="M:wf_core_sample.Controllers.WorkflowsController.PrintWorkflowEvents">
+            <summary>
+            Отобразить события документооборотов.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:wf_core_sample.Controllers.WorkflowsController.UploadWorkflowDefinition(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Загрузить текстовое описание документооборота
+            </summary>
+            <param name="file">Файл с описанием</param>
+            <returns></returns>
+        </member>
+        <member name="M:wf_core_sample.Controllers.WorkflowsController.Get(System.String)">
+            <summary>
+            Получить информацию по документообороту
+            </summary>
+            <param name="id">ИД документооборота</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

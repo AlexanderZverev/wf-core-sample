@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -45,6 +46,9 @@ namespace wf_core_sample
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "wf-core-sample.xml");
+                c.IncludeXmlComments(filePath);
             });
 
             services.AddSingleton(x => new WorkFlowEvents());

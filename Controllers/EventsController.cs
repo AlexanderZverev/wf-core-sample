@@ -16,10 +16,17 @@ namespace wf_core_sample.Controllers
             _workflowService = workflowService;
         }
 
+        /// <summary>
+        /// Отправить документ по запущенному документообороту
+        /// </summary>
+        /// <param name="eventName">Имя события которое ожидает запущщенный документооборот</param>
+        /// <param name="eventKey">ИД документооборота</param>
+        /// <param name="doc">Документ ('ok, iop, uou')</param>
+        /// <returns></returns>
         [HttpPost("{eventName}/{eventKey}")]
-        public async Task<IActionResult> Post(string eventName, string eventKey, [FromBody] UntypedDocumentWorkflowData eventData)
+        public async Task<IActionResult> Post(string eventName, string eventKey, string doc)
         {
-            await _workflowService.PublishEvent(eventName, eventKey, eventData.Document);
+            await _workflowService.PublishEvent(eventName, eventKey, doc);
             return Ok();
         }
     }
